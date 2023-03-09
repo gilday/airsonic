@@ -21,6 +21,7 @@ package org.airsonic.player.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.openpixee.security.BoundedLineReader;
 import org.airsonic.player.domain.Version;
 import org.airsonic.player.util.FileUtil;
 import org.apache.http.client.ResponseHandler;
@@ -191,7 +192,7 @@ public class VersionService {
         }
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
-            return reader.readLine();
+            return BoundedLineReader.readLine(reader, 1000000);
         } catch (IOException x) {
             return null;
         } finally {

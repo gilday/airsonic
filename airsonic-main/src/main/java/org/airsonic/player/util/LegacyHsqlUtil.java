@@ -18,6 +18,9 @@ import java.util.Properties;
 
 public class LegacyHsqlUtil {
 
+private LegacyHsqlUtil() {
+}
+
     private static final Logger LOG = LoggerFactory.getLogger(LegacyHsqlUtil.class);
 
     /**

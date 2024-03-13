@@ -1985,7 +1985,7 @@ public class SubsonicRESTController {
 
         org.airsonic.player.domain.User requestedUser = securityService.getUserByName(username);
         if (requestedUser == null) {
-            error(request, response, ErrorCode.NOT_FOUND, "No such user: " + username);
+            error(request, response, ErrorCode.NOT_FOUND, NO_SUCH_USER + username);
             return;
         }
 
@@ -2099,7 +2099,7 @@ public class SubsonicRESTController {
         UserSettings s = settingsService.getUserSettings(username);
 
         if (u == null) {
-            error(request, response, ErrorCode.NOT_FOUND, "No such user: " + username);
+            error(request, response, ErrorCode.NOT_FOUND, NO_SUCH_USER + username);
             return;
         } else if (user.getUsername().equals(username)) {
             error(request, response, ErrorCode.NOT_AUTHORIZED, "Not allowed to change own user");
@@ -2162,7 +2162,7 @@ public class SubsonicRESTController {
         org.airsonic.player.domain.User u = securityService.getUserByName(username);
 
         if (u == null) {
-            error(request, response, ErrorCode.NOT_FOUND, "No such user: " + username);
+            error(request, response, ErrorCode.NOT_FOUND, NO_SUCH_USER + username);
             return;
         } else if (user.getUsername().equals(username)) {
             error(request, response, ErrorCode.NOT_AUTHORIZED, "Not allowed to delete own user");
@@ -2407,4 +2407,6 @@ public class SubsonicRESTController {
             return message;
         }
     }
+    
+    private static final String NO_SUCH_USER = "No such user: ";
 }

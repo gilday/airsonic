@@ -280,7 +280,7 @@ public class InternalHelpController {
         try (Analyzer analyzer = analyzerFactory.getAnalyzer()) {
             map.put("indexLuceneVersion", analyzer.getVersion().toString());
         } catch (IOException e) {
-            LOG.debug("Unable to gather information", e);
+            LOG.debug(UNABLE_TO_GATHER_INFORMATION, e);
         }
     }
 
@@ -341,13 +341,13 @@ public class InternalHelpController {
                     Long tableCount = daoHelper.getJdbcTemplate().queryForObject(String.format("SELECT count(*) FROM %s", tableName), Long.class);
                     dbTableCount.put(tableName, tableCount);
                 } catch (Exception e) {
-                    LOG.debug("Unable to gather information", e);
+                    LOG.debug(UNABLE_TO_GATHER_INFORMATION, e);
                 }
             }
             map.put("dbTableCount", dbTableCount);
 
         } catch (SQLException e) {
-            LOG.debug("Unable to gather information", e);
+            LOG.debug(UNABLE_TO_GATHER_INFORMATION, e);
         }
 
         if (environment.acceptsProfiles("legacy")) {
@@ -455,5 +455,7 @@ public class InternalHelpController {
         }
         return executableStatistics;
     }
+    
+    private static final String UNABLE_TO_GATHER_INFORMATION = "Unable to gather information";
 
 }

@@ -19,6 +19,7 @@
  */
 package org.airsonic.player.controller;
 
+import io.github.pixee.security.Filenames;
 import org.airsonic.player.domain.Avatar;
 import org.airsonic.player.service.SecurityService;
 import org.airsonic.player.service.SettingsService;
@@ -84,7 +85,7 @@ public class AvatarUploadController {
         // Look for file items.
         for (FileItem item : items) {
             if (!item.isFormField()) {
-                String fileName = item.getName();
+                String fileName = Filenames.toSimpleFileName(item.getName());
                 byte[] data = item.get();
 
                 if (StringUtils.isNotBlank(fileName) && data.length > 0) {

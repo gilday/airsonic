@@ -21,6 +21,7 @@ package org.airsonic.player.service.metadata;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.pixee.security.SystemCommand;
 import org.airsonic.player.domain.MediaFile;
 import org.airsonic.player.service.SettingsService;
 import org.airsonic.player.service.TranscodingService;
@@ -85,7 +86,7 @@ public class FFmpegParser extends MetaDataParser {
             command.addAll(Arrays.asList(FFPROBE_OPTIONS));
             command.add(file.getAbsolutePath());
 
-            Process process = Runtime.getRuntime().exec(command.toArray(new String[0]));
+            Process process = SystemCommand.runCommand(Runtime.getRuntime(), command.toArray(new String[0]));
             final JsonNode result = objectMapper.readTree(process.getInputStream());
 
             metaData.setDurationSeconds(result.at("/format/duration").asInt());

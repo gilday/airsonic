@@ -19,6 +19,7 @@
  */
 package org.airsonic.player.controller;
 
+import io.github.pixee.security.Filenames;
 import org.airsonic.player.domain.TransferStatus;
 import org.airsonic.player.domain.User;
 import org.airsonic.player.service.PlayerService;
@@ -120,7 +121,7 @@ public class UploadController {
                 FileItem item = (FileItem) o;
 
                 if (!item.isFormField()) {
-                    String fileName = item.getName();
+                    String fileName = Filenames.toSimpleFileName(item.getName());
                     if (!fileName.trim().isEmpty()) {
 
                         File targetFile = new File(dir, new File(fileName).getName());

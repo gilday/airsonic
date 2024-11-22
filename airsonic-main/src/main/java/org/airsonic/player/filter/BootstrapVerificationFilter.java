@@ -19,6 +19,7 @@
  */
 package org.airsonic.player.filter;
 
+import java.nio.file.Files;
 import org.airsonic.player.service.SettingsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,7 +90,7 @@ public class BootstrapVerificationFilter implements Filter {
 
     private boolean directoryWritable(File dir) {
         try {
-            File tempFile = File.createTempFile("test", null, dir);
+            File tempFile = Files.createTempFile(dir.toPath(), "test", null).toFile();
             return tempFile.delete();
         } catch (IOException x) {
             return false;

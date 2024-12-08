@@ -574,7 +574,11 @@
             <artifactId>hamcrest</artifactId>
             <scope>test</scope>
         </dependency>
-    </dependencies>
+    <dependency>
+      <groupId>io.github.pixee</groupId>
+      <artifactId>java-security-toolkit</artifactId>
+    </dependency>
+  </dependencies>
 
     <build>
         <finalName>airsonic</finalName>
@@ -651,8 +655,7 @@
                         <configuration>
                             <target>
                                 <tstamp/>
-                                <copy file="${basedir}/src/main/resources/org/airsonic/player/i18n/ResourceBundle_en.properties"
-                                      tofile="${project.build.directory}/classes/org/airsonic/player/i18n/ResourceBundle.properties"/>
+                                <copy file="${basedir}/src/main/resources/org/airsonic/player/i18n/ResourceBundle_en.properties" tofile="${project.build.directory}/classes/org/airsonic/player/i18n/ResourceBundle.properties"/>
                                 <echo file="${project.build.directory}/classes/build_number.txt">${buildNumber}</echo>
                                 <!--suppress MavenModelInspection -->
                                 <echo file="${project.build.directory}/classes/build_date.txt">${DSTAMP}</echo>

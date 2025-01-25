@@ -19,6 +19,7 @@
  */
 package org.airsonic.player.controller;
 
+import io.github.pixee.security.Filenames;
 import org.airsonic.player.domain.Playlist;
 import org.airsonic.player.service.PlaylistService;
 import org.airsonic.player.service.SecurityService;
@@ -70,12 +71,12 @@ public class ImportPlaylistController {
                 for (Object o : items) {
                     FileItem item = (FileItem) o;
 
-                    if ("file".equals(item.getFieldName()) && !StringUtils.isBlank(item.getName())) {
+                    if ("file".equals(item.getFieldName()) && !StringUtils.isBlank(Filenames.toSimpleFileName(item.getName()))) {
                         if (item.getSize() > MAX_PLAYLIST_SIZE_MB * 1024L * 1024L) {
                             throw new Exception("The playlist file is too large. Max file size is " + MAX_PLAYLIST_SIZE_MB + " MB.");
                         }
-                        String playlistName = FilenameUtils.getBaseName(item.getName());
-                        String fileName = FilenameUtils.getName(item.getName());
+                        String playlistName = FilenameUtils.getBaseName(Filenames.toSimpleFileName(item.getName()));
+                        String fileName = FilenameUtils.getName(Filenames.toSimpleFileName(item.getName()));
                         String username = securityService.getCurrentUsername(request);
                         Playlist playlist = playlistService.importPlaylist(username, playlistName, fileName,
                                 item.getInputStream(), null);

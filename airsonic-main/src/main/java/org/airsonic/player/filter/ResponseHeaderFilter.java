@@ -19,6 +19,7 @@
  */
 package org.airsonic.player.filter;
 
+import io.github.pixee.security.Newlines;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
 
@@ -42,7 +43,7 @@ public class ResponseHeaderFilter implements Filter {
         // Sets the provided HTTP response parameters
         for (Enumeration<String> e = filterConfig.getInitParameterNames(); e.hasMoreElements();) {
             String headerName = e.nextElement();
-            response.setHeader(headerName, filterConfig.getInitParameter(headerName));
+            response.setHeader(headerName, Newlines.stripAll(filterConfig.getInitParameter(headerName)));
         }
 
         // pass the request/response on

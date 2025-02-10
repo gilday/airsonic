@@ -23,6 +23,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.pixee.security.Newlines;
 import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,7 +88,7 @@ public final class Util {
         if (length <= Integer.MAX_VALUE) {
             response.setContentLength((int) length);
         } else {
-            response.setHeader("Content-Length", String.valueOf(length));
+            response.setHeader("Content-Length", Newlines.stripAll(String.valueOf(length)));
         }
     }
 

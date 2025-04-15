@@ -19,6 +19,8 @@
  */
 package org.airsonic.player.service;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,7 +100,7 @@ public class NetworkService {
     }
 
     private static URI calculateNonProxyUri(HttpServletRequest request) throws MalformedURLException, URISyntaxException {
-        URL url = new URL(request.getRequestURL().toString());
+        URL url = Urls.create(request.getRequestURL().toString(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         String host = url.getHost();
         String scheme = url.getProtocol();
         int port = url.getPort();

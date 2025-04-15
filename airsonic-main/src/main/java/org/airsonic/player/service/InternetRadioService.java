@@ -1,6 +1,8 @@
 package org.airsonic.player.service;
 
 import chameleon.playlist.*;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.airsonic.player.domain.InternetRadio;
 import org.airsonic.player.domain.InternetRadioSource;
 import org.apache.commons.io.input.BoundedInputStream;
@@ -158,7 +160,7 @@ public class InternetRadioService {
         // Retrieve the remote playlist
         String playlistUrl = radio.getStreamUrl();
         LOG.debug("Parsing internet radio playlist at {}...", playlistUrl);
-        SpecificPlaylist inputPlaylist = retrievePlaylist(new URL(playlistUrl), maxByteSize, maxRedirects);
+        SpecificPlaylist inputPlaylist = retrievePlaylist(Urls.create(playlistUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS), maxByteSize, maxRedirects);
 
         // Retrieve stream URLs
         List<InternetRadioSource> entries = new ArrayList<>();
@@ -276,7 +278,7 @@ public class InternetRadioService {
             }
 
             // Reconnect to the new URL.
-            currentURL = new URL(connection.getHeaderField("Location"));
+            currentURL = Urls.create(connection.getHeaderField("Location"), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             connection.disconnect();
             connection = connectToURL(currentURL);
         }

@@ -1,5 +1,7 @@
 package org.airsonic.player.service;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.airsonic.player.domain.InternetRadio;
 import org.airsonic.player.domain.InternetRadioSource;
 import org.junit.Assert;
@@ -116,12 +118,12 @@ public class InternetRadioServiceTest {
         doReturn(HttpURLConnection.HTTP_OK).when(mockURLConnectionLarge2).getResponseCode();
 
         // Prepare the mock 'connectToURL' method
-        doReturn(mockURLConnection1).when(internetRadioService).connectToURL(eq(new URL(TEST_PLAYLIST_URL_1)));
-        doReturn(mockURLConnection2).when(internetRadioService).connectToURL(eq(new URL(TEST_PLAYLIST_URL_2)));
-        doReturn(mockURLConnectionMove).when(internetRadioService).connectToURL(eq(new URL(TEST_PLAYLIST_URL_MOVE)));
-        doReturn(mockURLConnectionMoveLoop).when(internetRadioService).connectToURL(eq(new URL(TEST_PLAYLIST_URL_MOVE_LOOP)));
-        doReturn(mockURLConnectionLarge).when(internetRadioService).connectToURL(eq(new URL(TEST_PLAYLIST_URL_LARGE)));
-        doReturn(mockURLConnectionLarge2).when(internetRadioService).connectToURL(eq(new URL(TEST_PLAYLIST_URL_LARGE_2)));
+        doReturn(mockURLConnection1).when(internetRadioService).connectToURL(eq(Urls.create(TEST_PLAYLIST_URL_1, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS)));
+        doReturn(mockURLConnection2).when(internetRadioService).connectToURL(eq(Urls.create(TEST_PLAYLIST_URL_2, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS)));
+        doReturn(mockURLConnectionMove).when(internetRadioService).connectToURL(eq(Urls.create(TEST_PLAYLIST_URL_MOVE, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS)));
+        doReturn(mockURLConnectionMoveLoop).when(internetRadioService).connectToURL(eq(Urls.create(TEST_PLAYLIST_URL_MOVE_LOOP, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS)));
+        doReturn(mockURLConnectionLarge).when(internetRadioService).connectToURL(eq(Urls.create(TEST_PLAYLIST_URL_LARGE, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS)));
+        doReturn(mockURLConnectionLarge2).when(internetRadioService).connectToURL(eq(Urls.create(TEST_PLAYLIST_URL_LARGE_2, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS)));
     }
 
     @Test

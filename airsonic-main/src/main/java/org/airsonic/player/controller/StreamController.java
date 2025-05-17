@@ -19,6 +19,7 @@
  */
 package org.airsonic.player.controller;
 
+import io.github.pixee.security.Newlines;
 import org.airsonic.player.domain.*;
 import org.airsonic.player.io.PlayQueueInputStream;
 import org.airsonic.player.io.RangeOutputStream;
@@ -178,7 +179,7 @@ public class StreamController {
                         long endByte = range.isClosed() ? range.getLastBytePos() : fileLengthExpected - 1;
 
                         response.setHeader("Content-Range",
-                                String.format("bytes %d-%d/%d", startByte, endByte, fileLengthExpected));
+                                Newlines.stripAll(String.format("bytes %d-%d/%d", startByte, endByte, fileLengthExpected)));
                         contentLength = endByte + 1 - startByte;
                     } else {
                         // No range was requested, give back the whole file
@@ -306,7 +307,7 @@ public class StreamController {
         // Enabled SHOUTcast, if requested.
         boolean isShoutCastRequested = "1".equals(request.getHeader("icy-metadata"));
         if (isShoutCastRequested && !isSingleFile) {
-            response.setHeader("icy-metaint", "" + ShoutCastOutputStream.META_DATA_INTERVAL);
+            response.setHeader("icy-metaint", Newlines.stripAll("" + ShoutCastOutputStream.META_DATA_INTERVAL));
             response.setHeader("icy-notice1", "This stream is served using Airsonic");
             response.setHeader("icy-notice2", "Airsonic - Free media streamer");
             response.setHeader("icy-name", "Airsonic");
@@ -319,7 +320,7 @@ public class StreamController {
 
     private void setContentDuration(HttpServletResponse response, MediaFile file) {
         if (file.getDurationSeconds() != null) {
-            response.setHeader("X-Content-Duration", String.format("%.1f", file.getDurationSeconds().doubleValue()));
+            response.setHeader("X-Content-Duration", Newlines.stripAll(String.format("%.1f", file.getDurationSeconds().doubleValue())));
         }
     }
 

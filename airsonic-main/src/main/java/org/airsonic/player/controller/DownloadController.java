@@ -19,6 +19,7 @@
  */
 package org.airsonic.player.controller;
 
+import io.github.pixee.security.Newlines;
 import org.airsonic.player.domain.*;
 import org.airsonic.player.io.RangeOutputStream;
 import org.airsonic.player.service.*;
@@ -168,7 +169,7 @@ public class DownloadController implements LastModified {
         status.setFile(file);
 
         response.setContentType("application/x-download");
-        response.setHeader("Content-Disposition", "attachment; filename*=UTF-8''" + encodeAsRFC5987(file.getName()));
+        response.setHeader("Content-Disposition", Newlines.stripAll("attachment; filename*=UTF-8''" + encodeAsRFC5987(file.getName())));
         if (range == null) {
             Util.setContentLength(response, file.length());
         }
@@ -216,7 +217,7 @@ public class DownloadController implements LastModified {
 
         LOG.info("Starting to download '" + zipFileName + "' to " + status.getPlayer());
         response.setContentType("application/x-download");
-        response.setHeader("Content-Disposition", "attachment; filename*=UTF-8''" + encodeAsRFC5987(zipFileName));
+        response.setHeader("Content-Disposition", Newlines.stripAll("attachment; filename*=UTF-8''" + encodeAsRFC5987(zipFileName)));
 
         ZipOutputStream out = new ZipOutputStream(RangeOutputStream.wrap(response.getOutputStream(), range));
         out.setMethod(ZipOutputStream.STORED);  // No compression.

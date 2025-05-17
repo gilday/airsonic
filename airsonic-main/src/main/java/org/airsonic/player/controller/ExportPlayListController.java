@@ -1,5 +1,6 @@
 package org.airsonic.player.controller;
 
+import io.github.pixee.security.Newlines;
 import org.airsonic.player.domain.Playlist;
 import org.airsonic.player.service.PlaylistService;
 import org.airsonic.player.service.SecurityService;
@@ -37,7 +38,7 @@ public class ExportPlayListController {
 
         }
         response.setContentType("application/x-download");
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + StringUtil.fileSystemSafe(playlist.getName()) + ".m3u8\"");
+        response.setHeader("Content-Disposition", Newlines.stripAll("attachment; filename=\"" + StringUtil.fileSystemSafe(playlist.getName()) + ".m3u8\""));
 
         playlistService.exportPlaylist(id, response.getOutputStream());
         return null;

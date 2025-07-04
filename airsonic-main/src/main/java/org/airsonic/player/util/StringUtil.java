@@ -19,6 +19,7 @@
  */
 package org.airsonic.player.util;
 
+import io.github.pixee.security.BoundedLineReader;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang.StringUtils;
@@ -235,7 +236,7 @@ public final class StringUtil {
     public static String[] readLines(InputStream in) throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
             List<String> result = new ArrayList<String>();
-            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+            for (String line = BoundedLineReader.readLine(reader, 5_000_000); line != null; line = BoundedLineReader.readLine(reader, 5_000_000)) {
                 line = line.trim();
                 if (!line.startsWith("#") && !line.isEmpty()) {
                     result.add(line);

@@ -19,6 +19,7 @@
  */
 package org.airsonic.player.io;
 
+import io.github.pixee.security.BoundedLineReader;
 import org.airsonic.player.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +52,7 @@ public class InputStreamReaderThread extends Thread {
 
     public void run() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
-            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+            for (String line = BoundedLineReader.readLine(reader, 5_000_000); line != null; line = BoundedLineReader.readLine(reader, 5_000_000)) {
                 if (log) {
                     LOG.info('(' + name + ") " + line);
                 }

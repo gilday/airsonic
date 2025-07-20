@@ -19,6 +19,8 @@
  */
 package org.airsonic.player.util;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang.StringUtils;
@@ -348,7 +350,7 @@ public final class StringUtil {
      */
     public static String getUrlFile(String url) {
         try {
-            String path = new URL(url).getPath();
+            String path = Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).getPath();
             if (StringUtils.isBlank(path) || path.endsWith("/")) {
                 return null;
             }
